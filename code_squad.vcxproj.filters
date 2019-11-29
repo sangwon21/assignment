@@ -20,7 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="JudgeType.h">
+    <ClInclude Include="judge-type.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="record-book.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
