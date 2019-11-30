@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "player.h";
-#include "record-book.h";
-#include "util.h";
+#include "player.h"
+#include "record-book.h"
+#include "util.h"
 
 class Team
 {
@@ -41,7 +41,7 @@ public:
 
 	bool isValidHitRate(const float hitRate)
 	{
-		return hitRate >= 0.1 && hitRate <= 0.5 && Util::isThreePointFloat(hitRate);
+		return Util::isFloatInRange(hitRate, MIN_HIT_RATE, MAX_HIT_RATE) && Util::isThreePointFloat(hitRate);
 	}
 
 	void writePlayer(const int i)
@@ -52,7 +52,7 @@ public:
 		std::cin >> name;
 		while (!(std::cin >> hitRate) || !isValidHitRate(hitRate))
 		{
-			std::cout << "에러: 타율은 0.1과 0.5사이 값이어야 합니다. ";
+			std::cout << "에러: 타율은 0.1과 0.5사이 소수 3자리 값이어야 합니다. ";
 			std::cin.clear();
 			std::cin.ignore(123, '\n');
 		}
@@ -81,6 +81,8 @@ public:
 
 private:
 	constexpr static int TEAM_NUMBER_LIMITS = 2;
+	constexpr static float MIN_HIT_RATE= 0.1;
+	constexpr static float MAX_HIT_RATE = 0.5;
 	std::string mName;
 	Record mRecord;
 	Player* mPlayers;
