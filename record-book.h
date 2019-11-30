@@ -11,12 +11,23 @@ public:
 		mBall = 0;
 		mOut = 0;
 		mHit = 0;
+		mScore = 0;
 	}
 
-	void flushRecord()
+	int getScore()
+	{
+		return mScore;
+	}
+
+	void flushStrikesAndBalls()
 	{
 		mStrike = 0;
 		mBall = 0;
+	}
+
+	void flushOuts()
+	{
+		mOut = 0;
 	}
 
 	void writeToRecord(int ball)
@@ -30,11 +41,11 @@ public:
 			mBall += 1;
 			break;
 		case JUDGES_HIT:
-			flushRecord();
+			flushStrikesAndBalls();
 			mHit += 1;
 			break;
 		case JUDGES_OUT:
-			flushRecord();
+			flushStrikesAndBalls();
 			mOut += 1;
 			break;
 		default:
@@ -65,13 +76,13 @@ public:
 
 	void handleFourBalls()
 	{
-		flushRecord();
+		flushStrikesAndBalls();
 		mHit += 1;
 	}
 
 	void handleThreeStrikes()
 	{
-		flushRecord();
+		flushStrikesAndBalls();
 		mOut += 1;
 	}
 
@@ -79,13 +90,13 @@ public:
 	{
 		if (mStrike == 3)
 		{
-			flushRecord();
+			flushStrikesAndBalls();
 			mOut += 1;
 			return true;
 		}
 		if (mBall == 4)
 		{
-			flushRecord();
+			flushStrikesAndBalls();
 			mHit += 1;
 			return true;
 		}
@@ -99,9 +110,15 @@ public:
 		std::cout << std::endl;
 	}
 
+	void convertHitsIntoScore()
+	{
+		mScore = mScore + mHit / 4;
+	}
+
 private:
 	int mStrike;
 	int mBall;
 	int mOut;
 	int mHit;
+	int mScore;
 };

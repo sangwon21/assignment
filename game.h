@@ -17,12 +17,13 @@ public:
 			readTeamInfo();
 			break;
 		case 3:
-			playOneInning();
+			playFullInning();
 			break;
 		default:
 			break;
 		}
 	}
+
 	void startGame()
 	{
 		Menu::printMenu();
@@ -52,17 +53,41 @@ public:
 		std::cout << "\n팀데이터 출력이 완료되었습니다." << std::endl;
 	}
 
-	void playOneInning()
+	void playGame(Team& team)
+	{
+		team.atBat();
+		while (!team.isTurnOver())
+		{
+			team.playInBase();
+		}
+	}
+
+	void playOneInning(const int i)
+	{
+		std::cout << i << "회 초 " + mTeam1.getName() + "의 공격" << std::endl;
+		playGame(mTeam1);
+		mTeam1.cleanUpRecord();
+		std::cout << i << "회 말 " + mTeam2.getName() + "의 공격" << std::endl;
+		playGame(mTeam2);
+		mTeam2.cleanUpRecord();
+	}
+
+	void playFullInning()
 	{
 		std::cout << "\n" << mTeam1.getName() + " VS " + mTeam2.getName() << std::endl;
-		while (!mTeam1.isTurnOver())
+		for (int i = 1; i <= INNING_LIMIT; i++)
 		{
-			mTeam1.playInBase();
+			playOneInning(i);
 		}
-		while (!mTeam2.isTurnOver())
-		{
-			mTeam2.playInBase();
-		}
+		showResults();
+	}
+
+	void showResults()
+	{
+		std::cout << "경기 종료" << std::endl;
+		std::cout << "\n" << mTeam1.getName() + " VS " + mTeam2.getName() << std::endl;
+		std::cout << mTeam1.getTeamScore() << " : " << mTeam2.getTeamScore() << std::endl;
+		std::cout << "Thank you!" << std::endl;
 	}
 
 private:

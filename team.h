@@ -97,9 +97,13 @@ public:
 		currentOrder = (currentOrder + 1) % TEAM_NUMBER_LIMITS;
 	}
 
-	void playInBase()
+	void atBat()
 	{
 		std::cout << currentOrder + 1 << "¹ø " << mPlayers[currentOrder].getName() << std::endl;
+	}
+
+	void playInBase()
+	{
 		const int result = mPlayers[currentOrder].swingBet(Ball::throwBall());
 		mRecord.writeToRecord(result);
 		readJudge(result);
@@ -107,7 +111,23 @@ public:
 		if (mRecord.convertThreeStrikesOrFourBalls() || result == JUDGES_OUT || result == JUDGES_HIT)
 		{
 			updateOrder();
+			if (!mRecord.checkThreeOuts())
+			{
+				atBat();
+			}
 		}
+	}
+
+	void cleanUpRecord()
+	{
+		mRecord.flushStrikesAndBalls();
+		mRecord.flushOuts();
+		mRecord.convertHitsIntoScore();
+	}
+
+	int getTeamScore()
+	{
+		return mRecord.getScore();
 	}
 
 private:
