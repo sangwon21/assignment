@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "judge-type.h";
+#include "judge-type.h"
 #include "record-book.h"
+#include "team.h"
+#include "game.h"
 
 void writeToScreen(const std::string& message)
 {
@@ -41,14 +43,16 @@ int main(void)
 {
 	srand((unsigned int)time(0));
 
-	Record record(0, 0, 0, 0);
+	Game game;
+	while (true)
+		game.startGame();
 
-	startMessage();
+	/*startMessage();
 	while (!record.checkThreeOuts())
 	{
 		gamePlay(record);
 	}
-	record.readHits();
+	record.readHits();*/
 
 	return 0;
 }

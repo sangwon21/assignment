@@ -46,7 +46,7 @@ public:
 
 	void writePlayer(const int i)
 	{
-		std::cout << i + 1<< "번 타자 선수 정보입력 > ";
+		std::cout << i + 1 << "번 타자 선수 정보입력 > ";
 		float hitRate;
 		std::string name;
 		std::cin >> name;
@@ -72,6 +72,7 @@ public:
 
 	void readTeam()
 	{
+		std::cout << mName << "팀 정보" << std::endl;
 		for (int i = 0; i < TEAM_NUMBER_LIMITS; i++)
 		{
 			std::cout << i + 1 << "번 ";
@@ -81,7 +82,7 @@ public:
 
 private:
 	constexpr static int TEAM_NUMBER_LIMITS = 2;
-	constexpr static float MIN_HIT_RATE= 0.1;
+	constexpr static float MIN_HIT_RATE = 0.1;
 	constexpr static float MAX_HIT_RATE = 0.5;
 	std::string mName;
 	Record mRecord;

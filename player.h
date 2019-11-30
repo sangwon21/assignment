@@ -11,7 +11,7 @@ public:
 	}
 
 	void readPlayer()
-	{ 
+	{
 		std::cout << mName << ", " << mHitRate << std::endl;
 	}
 

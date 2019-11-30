@@ -1,16 +1,16 @@
 #pragma once
 #include <string>
-#include "judge-type.h";
+#include "judge-type.h"
 
 class Record
 {
 public:
-	Record(int strike, int ball, int out, int hit)
+	Record()
 	{
-		mStrike = strike;
-		mBall = ball;
-		mOut = out;
-		mHit = hit;
+		mStrike = 0;
+		mBall = 0;
+		mOut = 0;
+		mHit = 0;
 	}
 
 	void flushRecord()
