@@ -19,11 +19,6 @@ enum Judges
 
 void readJudge(const int ball)
 {
-	if (ball == JUDGES_BALL || ball == JUDGES_STRIKE)
-	{
-		std::cout << judgeTypes[ball].kor << "!" << std::endl;
-		return;
-	}
-	std::cout << judgeTypes[ball].kor << "!" << "다음 타자가 타석에 입장했습니다." << std::endl;
+	std::cout << judgeTypes[ball].kor << "!" << std::endl;
 	return;
 }

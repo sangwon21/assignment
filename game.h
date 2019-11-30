@@ -16,6 +16,9 @@ public:
 		case 2:
 			readTeamInfo();
 			break;
+		case 3:
+			playOneInning();
+			break;
 		default:
 			break;
 		}
@@ -49,7 +52,21 @@ public:
 		std::cout << "\n팀데이터 출력이 완료되었습니다." << std::endl;
 	}
 
+	void playOneInning()
+	{
+		std::cout << "\n" << mTeam1.getName() + " VS " + mTeam2.getName() << std::endl;
+		while (!mTeam1.isTurnOver())
+		{
+			mTeam1.playInBase();
+		}
+		while (!mTeam2.isTurnOver())
+		{
+			mTeam2.playInBase();
+		}
+	}
+
 private:
 	Team mTeam1;
 	Team mTeam2;
+	static constexpr int INNING_LIMIT = 6;
 };

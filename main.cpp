@@ -6,28 +6,12 @@
 #include "team.h"
 #include "game.h"
 
-void writeToScreen(const std::string& message)
-{
-	std::cout << message << std::endl;
-}
 
 const int throwBall()
 {
 	int ball = rand() % 3;
 
 	return ball;
-}
-
-void showChangePlayerMessage()
-{
-	writeToScreen("다음 타자가 타석에 입장했습니다.");
-}
-
-void startMessage()
-{
-	writeToScreen("신나는 야구 게임!");
-	writeToScreen("첫 번째 타자가 타석에 입장했습니다.");
-	writeToScreen("");
 }
 
 void gamePlay(Record& record)

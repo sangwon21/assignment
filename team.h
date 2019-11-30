@@ -2,7 +2,9 @@
 #include <string>
 #include "player.h"
 #include "record-book.h"
+#include "judge-type.h"
 #include "util.h"
+#include "ball.h"
 
 class Team
 {
@@ -37,6 +39,11 @@ public:
 	~Team()
 	{
 		delete[10] mPlayers;
+	}
+
+	std::string getName()
+	{
+		return mName;
 	}
 
 	bool isValidHitRate(const float hitRate)
@@ -80,10 +87,34 @@ public:
 		}
 	}
 
+	bool isTurnOver()
+	{
+		return mRecord.checkThreeOuts();
+	}
+
+	void updateOrder()
+	{
+		currentOrder = (currentOrder + 1) % TEAM_NUMBER_LIMITS;
+	}
+
+	void playInBase()
+	{
+		std::cout << currentOrder + 1 << "¹ø " << mPlayers[currentOrder].getName() << std::endl;
+		const int result = mPlayers[currentOrder].swingBet(Ball::throwBall());
+		mRecord.writeToRecord(result);
+		readJudge(result);
+		mRecord.readRecord();
+		if (mRecord.convertThreeStrikesOrFourBalls() || result == JUDGES_OUT || result == JUDGES_HIT)
+		{
+			updateOrder();
+		}
+	}
+
 private:
 	constexpr static int TEAM_NUMBER_LIMITS = 2;
 	constexpr static float MIN_HIT_RATE = 0.1;
 	constexpr static float MAX_HIT_RATE = 0.5;
+	int currentOrder;
 	std::string mName;
 	Record mRecord;
 	Player* mPlayers;

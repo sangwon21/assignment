@@ -75,22 +75,21 @@ public:
 		mOut += 1;
 	}
 
-	void convertThreeStrikesOrFourBalls()
+	bool convertThreeStrikesOrFourBalls()
 	{
 		if (mStrike == 3)
 		{
 			flushRecord();
 			mOut += 1;
-			readJudge(JUDGES_OUT);
-			return;
+			return true;
 		}
 		if (mBall == 4)
 		{
 			flushRecord();
 			mHit += 1;
-			readJudge(JUDGES_HIT);
-			return;
+			return true;
 		}
+		return false;
 	}
 
 	void readHits()
