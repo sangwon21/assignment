@@ -113,6 +113,8 @@ public:
 			showResults();
 			return;
 		}
+		std::cout << "누구의 턴이냐 : " << mTurn << "==============" << std::endl;
+		std::cout << "몇 이닝 : " << mCurrentInning << "============" << std::endl;
 		switch (mTurn)
 		{
 		case TEAM1_TURN:
@@ -123,7 +125,15 @@ public:
 			break;
 		}
 	}
-	// todo: 특정이닝까지  게임을 진행하는 함수가 필요.
+
+	void playTillParticularInning(const int targetInning)
+	{
+		while (targetInning >= mCurrentInning)
+		{
+			takeTurn();
+		}
+	}
+
 
 	void playOneInning(const int i)
 	{

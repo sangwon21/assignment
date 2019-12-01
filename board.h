@@ -12,6 +12,7 @@ public:
 			game.takeTurn();
 			break;
 		default:
+			game.playTillParticularInning(menu);
 			break;
 		}
 	}
