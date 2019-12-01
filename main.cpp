@@ -2,16 +2,22 @@
 #include <string>
 #include <ctime>
 #include "game.h"
+#include "board.h"
 
 int main(void)
 {
 	srand((unsigned int)time(0));
 
-	Game game;
+	//Game game;
+	//while (true)
+	//{
+	//	game.startGame();
+	//}
+
+	Board board;
 	while (true)
 	{
-		game.startGame();
+		board.startBoard();
 	}
-
 	return 0;
 }

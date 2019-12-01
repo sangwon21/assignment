@@ -5,6 +5,19 @@
 class Player
 {
 public:
+	Player()
+	{
+
+	}
+
+	Player(std::string name, float hitRate)
+		: mName(name)
+		, mHitRate(hitRate)
+	{
+		maxHitRateRange = MAX_OUT_RANGE + static_cast<int>(mHitRate * 1000);
+		maxStrikeRange = maxHitRateRange + static_cast<int>(((1 - mHitRate) / 2 - 0.05) * 1000);
+	}
+
 	std::string getName()
 	{
 		return mName;

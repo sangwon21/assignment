@@ -41,6 +41,15 @@ public:
 		delete[10] mPlayers;
 	}
 
+	void initializeTeam(Player *players, std::string name)
+	{
+		mName = name;
+		for (int i = 0; i < TEAM_NUMBER_LIMITS; i++)
+		{
+			mPlayers[i] = players[i];
+		}
+	}
+
 	std::string getName()
 	{
 		return mName;
@@ -111,10 +120,6 @@ public:
 		if (mRecord.convertThreeStrikesOrFourBalls() || result == JUDGES_OUT || result == JUDGES_HIT)
 		{
 			updateOrder();
-			if (!mRecord.checkThreeOuts())
-			{
-				atBat();
-			}
 		}
 	}
 

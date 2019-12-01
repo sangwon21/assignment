@@ -6,12 +6,12 @@ class Record
 {
 public:
 	Record()
+		: mStrike(0)
+		, mBall(0)
+		, mOut(0)
+		, mHit(0)
+		, mScore(0)
 	{
-		mStrike = 0;
-		mBall = 0;
-		mOut = 0;
-		mHit = 0;
-		mScore = 0;
 	}
 
 	int getScore()
