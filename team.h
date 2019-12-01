@@ -13,6 +13,12 @@ public:
 	{
 		mRecord = Record();
 		mPlayers = new Player[10]();
+		mTeamScoreHistory = new int[INNING_LIMIT];
+		mPlayerNames = new std::string[TEAM_NUMBER_LIMITS];
+		for (int i = 0; i < INNING_LIMIT; i++)
+		{
+			mTeamScoreHistory[i] = 0;
+		}
 	}
 
 	Team(const Team& otherTeam)
@@ -23,22 +29,39 @@ public:
 		{
 			mPlayers[i] = otherTeam.mPlayers[i];
 		}
+		mTeamScoreHistory = new int[INNING_LIMIT];
+		for (int i = 0; i < INNING_LIMIT; i++)
+		{
+			mTeamScoreHistory[i] = otherTeam.mTeamScoreHistory[i];
+		}
 	}
 
 	void operator=(const Team& otherTeam)
 	{
 		mRecord = otherTeam.mRecord;
-		delete mPlayers;
+		delete[10] mPlayers;
+		delete[INNING_LIMIT] mTeamScoreHistory;
 		mPlayers = new Player[10]();
 		for (int i = 0; i < TEAM_NUMBER_LIMITS; i++)
 		{
 			mPlayers[i] = otherTeam.mPlayers[i];
+		}
+		mTeamScoreHistory = new int[INNING_LIMIT];
+		for (int i = 0; i < INNING_LIMIT; i++)
+		{
+			mTeamScoreHistory[i] = otherTeam.mTeamScoreHistory[i];
 		}
 	}
 
 	~Team()
 	{
 		delete[10] mPlayers;
+		delete[INNING_LIMIT] mTeamScoreHistory;
+	}
+
+	int* getTeamScoreHistory()
+	{
+		return mTeamScoreHistory;
 	}
 
 	void initializeTeam(Player *players, std::string name)
@@ -114,6 +137,7 @@ public:
 	void playInBase()
 	{
 		const int result = mPlayers[currentOrder].swingBet(Ball::throwBall());
+		mPlayers[currentOrder].recordHistory(result);
 		mRecord.writeToRecord(result);
 		readJudge(result);
 		mRecord.readRecord();
@@ -130,7 +154,7 @@ public:
 		mRecord.convertHitsIntoScore();
 	}
 
-	int getTeamScore()
+	int getTeamTotalScore()
 	{
 		return mRecord.getScore();
 	}
@@ -140,12 +164,54 @@ public:
 		return mRecord.getScore() > otherTeam.mRecord.getScore();
 	}
 
+	void recordScore(int inning)
+	{
+		int beforeTotalScore = 0;
+		for (int i = 1; i < inning; i++)
+		{
+			beforeTotalScore += mTeamScoreHistory[i];
+		}
+		mTeamScoreHistory[inning - 1] = mRecord.getScore() - beforeTotalScore;
+	}
+
+	void clearUpPlayersHistory()
+	{
+		for (int i = 0; i < TEAM_NUMBER_LIMITS; i++)
+		{
+			mPlayers[i].clearHistory();
+		}
+	}
+
+	Player* getTeamPlayers()
+	{
+		return mPlayers;
+	}
+
+
+	int readTeamTotalHit()
+	{
+		return mRecord.getTotalHit();
+	}
+
+	int readTeamTotalThrow()
+	{
+		return mRecord.getTotalThrow();
+	}
+
+	int readTeamTotalOut()
+	{
+		return mRecord.getTotalOut();
+	}
+
 private:
 	constexpr static int TEAM_NUMBER_LIMITS = 5;
 	constexpr static float MIN_HIT_RATE = 0.1;
 	constexpr static float MAX_HIT_RATE = 0.5;
-	int currentOrder;
+	constexpr static int INNING_LIMIT = 6;
+	std::string* mPlayerNames;
 	std::string mName;
+	int currentOrder;
+	int* mTeamScoreHistory;
 	Record mRecord;
 	Player* mPlayers;
 };

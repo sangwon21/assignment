@@ -13,7 +13,22 @@ public:
 		Player players1[5] = { {"크롱", 0.123}, {"jk", 0.321}, {"에이스", 0.215}, {"상디", 0.126}, {"조로", 0.222} };
 		Player players2[5] = { {"호눅스", 0.123}, {"김세정", 0.321}, {"루피",0.111},{"나루토", 0.312},{"나미", 0.111} };
 		mTeam1.initializeTeam(players1, "코드");
-		mTeam2.initializeTeam(players2, "스쿼드");
+		mTeam2.initializeTeam(players2, "스쿼");
+	}
+
+	Team& getTeam1()
+	{
+		return mTeam1;
+	}
+
+	Team& getTeam2()
+	{
+		return mTeam2;
+	}
+
+	int getCurrentInning()
+	{
+		return mCurrentInning;
 	}
 
 	void selectAction(const int menu)
@@ -72,7 +87,7 @@ public:
 		}
 	}
 
-	void changeTeam()
+	void changeTurn()
 	{
 		mTurn = (mTurn + 1) % 2;
 	}
@@ -82,19 +97,33 @@ public:
 		mCurrentInning += 1;
 	}
 
-	void playOneThrow(Team& team)
+	void changeTeam(Team& team)
+	{
+
+		team.cleanUpRecord();
+		team.recordScore(mCurrentInning);
+		if (mTurn == TEAM2_TURN)
+		{
+			moveToNextInning();
+		}
+		changeTurn();
+		team.clearUpPlayersHistory();
+	}
+
+	int playOneThrow(Team& team)
 	{
 		team.atBat();
 		team.playInBase();
 		if (team.isTurnOver())
 		{
-			if (mTurn == TEAM2_TURN)
+			changeTeam(team);
+			if (mCurrentInning > INNING_LIMIT)
 			{
-				moveToNextInning();
+				showResults();
+				return GAME_ENDED;
 			}
-			team.cleanUpRecord();
-			changeTeam();
 		}
+		return GAME_NOT_ENDED;
 	}
 
 	bool checkTeam2IsWinning()
@@ -106,34 +135,34 @@ public:
 		return false;
 	}
 
-	void takeTurn()
+	int takeTurn()
 	{
 		if (checkTeam2IsWinning())
 		{
 			showResults();
-			return;
+			return GAME_ENDED;
 		}
-		std::cout << "누구의 턴이냐 : " << mTurn << "==============" << std::endl;
-		std::cout << "몇 이닝 : " << mCurrentInning << "============" << std::endl;
+		std::cout << "CurrentInning is" << mCurrentInning<<"=============" << std::endl;
 		switch (mTurn)
 		{
 		case TEAM1_TURN:
-			playOneThrow(mTeam1);
+			return playOneThrow(mTeam1);
 			break;
 		case TEAM2_TURN:
-			playOneThrow(mTeam2);
+			return playOneThrow(mTeam2);
 			break;
 		}
 	}
 
-	void playTillParticularInning(const int targetInning)
+	int playTillParticularInning(const int targetInning)
 	{
+		int result = GAME_NOT_ENDED;
 		while (targetInning >= mCurrentInning)
 		{
-			takeTurn();
+			result = takeTurn();
 		}
+		return result;
 	}
-
 
 	void playOneInning(const int i)
 	{
@@ -159,9 +188,10 @@ public:
 	{
 		std::cout << "경기 종료" << std::endl;
 		std::cout << "\n" << mTeam1.getName() + " VS " + mTeam2.getName() << std::endl;
-		std::cout << mTeam1.getTeamScore() << " : " << mTeam2.getTeamScore() << std::endl;
+		std::cout << mTeam1.getTeamTotalScore() << " : " << mTeam2.getTeamTotalScore() << std::endl;
 		std::cout << "Thank you!" << std::endl;
 	}
+	static constexpr int INNING_LIMIT = 6;
 
 private:
 	Team mTeam1;
@@ -170,5 +200,7 @@ private:
 	int mCurrentInning;
 	static constexpr int TEAM1_TURN = 0;
 	static constexpr int TEAM2_TURN = 1;
-	static constexpr int INNING_LIMIT = 6;
+	static constexpr int GAME_ENDED = 1;
+	static constexpr int GAME_NOT_ENDED = 0;
+	
 };

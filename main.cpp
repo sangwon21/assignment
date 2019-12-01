@@ -8,16 +8,11 @@ int main(void)
 {
 	srand((unsigned int)time(0));
 
-	//Game game;
-	//while (true)
-	//{
-	//	game.startGame();
-	//}
-
 	Board board;
 	while (true)
 	{
-		board.startBoard();
+		int isEnded = board.startBoard();
+		board.readBoard(isEnded);
 	}
 	return 0;
 }

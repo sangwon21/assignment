@@ -11,6 +11,9 @@ public:
 		, mOut(0)
 		, mHit(0)
 		, mScore(0)
+		, mTotalHit(0)
+		, mTotalOut(0)
+		, mTotalThrow(0)
 	{
 	}
 
@@ -19,6 +22,20 @@ public:
 		return mScore;
 	}
 
+	int getTotalHit()
+	{
+		return mTotalHit;
+	}
+
+	int getTotalThrow()
+	{
+		return mTotalThrow;
+	}
+
+	int getTotalOut()
+	{
+		return mTotalOut;
+	}
 	void flushStrikesAndBalls()
 	{
 		mStrike = 0;
@@ -32,6 +49,7 @@ public:
 
 	void writeToRecord(int ball)
 	{
+		mTotalThrow += 1;
 		switch (ball)
 		{
 		case JUDGES_STRIKE:
@@ -43,12 +61,12 @@ public:
 		case JUDGES_HIT:
 			flushStrikesAndBalls();
 			mHit += 1;
+			mTotalHit += 1;
 			break;
 		case JUDGES_OUT:
 			flushStrikesAndBalls();
 			mOut += 1;
-			break;
-		default:
+			mTotalOut += 1;
 			break;
 		}
 	}
@@ -78,12 +96,14 @@ public:
 	{
 		flushStrikesAndBalls();
 		mHit += 1;
+		mTotalHit += 1;
 	}
 
 	void handleThreeStrikes()
 	{
 		flushStrikesAndBalls();
 		mOut += 1;
+		mTotalOut += 1;
 	}
 
 	bool convertThreeStrikesOrFourBalls()
@@ -92,12 +112,14 @@ public:
 		{
 			flushStrikesAndBalls();
 			mOut += 1;
+			mTotalOut += 1;
 			return true;
 		}
 		if (mBall == 4)
 		{
 			flushStrikesAndBalls();
 			mHit += 1;
+			mTotalHit += 1;
 			return true;
 		}
 		return false;
@@ -112,7 +134,7 @@ public:
 
 	void convertHitsIntoScore()
 	{
-		mScore = mScore + mHit / 4;
+		mScore += mHit / 4;
 	}
 
 private:
@@ -120,5 +142,8 @@ private:
 	int mBall;
 	int mOut;
 	int mHit;
+	int mTotalThrow;
+	int mTotalHit;
+	int mTotalOut;
 	int mScore;
 };
