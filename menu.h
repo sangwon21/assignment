@@ -5,22 +5,20 @@
 class Menu
 {
 public:
-	static bool isValidMenu(const int menu)
+	static bool isValidMenu(std::string menu)
 	{
-		return menu >= MENU_START && menu <= MENU_END;
+		int menuNumber = atoi(menu.c_str());
+
+		return menu.length() == 0 || (menuNumber >= MENU_START && menuNumber <= MENU_END);
 	}
 
 	static void printMenu()
 	{
 		std::cout << std::endl;
-		std::cout << "신나는 야구시합" << std::endl;
-		std::cout << "1.데이터 입력" << std::endl;
-		std::cout << "2.데이터 출력" << std::endl;
-		std::cout << "3. 시합 시작" << std::endl;
-		std::cout << "\n메뉴선택(1 - 3) ";
+		std::cout << "다음 투구 보기(enter) or 스킵하고 X회말 후 투구보기(숫자+enter) ? (1~6회)";
 	}
 
 private:
 	static constexpr int MENU_START = 1;
-	static constexpr int MENU_END = 3;
+	static constexpr int MENU_END = 6;
 };
