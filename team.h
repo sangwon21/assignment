@@ -135,8 +135,13 @@ public:
 		return mRecord.getScore();
 	}
 
+	bool isWinningAgainstTeam(Team& otherTeam)
+	{
+		return mRecord.getScore() > otherTeam.mRecord.getScore();
+	}
+
 private:
-	constexpr static int TEAM_NUMBER_LIMITS = 2;
+	constexpr static int TEAM_NUMBER_LIMITS = 5;
 	constexpr static float MIN_HIT_RATE = 0.1;
 	constexpr static float MAX_HIT_RATE = 0.5;
 	int currentOrder;

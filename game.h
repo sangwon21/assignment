@@ -10,8 +10,8 @@ public:
 		: mTurn(0)
 		, mCurrentInning(1)
 	{	
-		Player players1[2] = { {"크롱", 0.123}, {"jk", 0.321} };
-		Player players2[2] = { {"호눅스", 0.123}, {"김세정", 0.321} };
+		Player players1[5] = { {"크롱", 0.123}, {"jk", 0.321}, {"에이스", 0.215}, {"상디", 0.126}, {"조로", 0.222} };
+		Player players2[5] = { {"호눅스", 0.123}, {"김세정", 0.321}, {"루피",0.111},{"나루토", 0.312},{"나미", 0.111} };
 		mTeam1.initializeTeam(players1, "코드");
 		mTeam2.initializeTeam(players2, "스쿼드");
 	}
@@ -85,7 +85,6 @@ public:
 	void playOneThrow(Team& team)
 	{
 		team.atBat();
-		std::cout <<"team game over is "<< team.isTurnOver() << std::endl;
 		team.playInBase();
 		if (team.isTurnOver())
 		{
@@ -98,9 +97,22 @@ public:
 		}
 	}
 
+	bool checkTeam2IsWinning()
+	{
+		if (mCurrentInning == INNING_LIMIT && mTurn == TEAM2_TURN && mTeam2.isWinningAgainstTeam(mTeam1))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	void takeTurn()
 	{
-		// todo: 6회말 2번째 팀이 이기고 있으면 게임을 끝낸다.
+		if (checkTeam2IsWinning())
+		{
+			showResults();
+			return;
+		}
 		switch (mTurn)
 		{
 		case TEAM1_TURN:
