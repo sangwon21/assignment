@@ -11,5 +11,5 @@
 - 먼저, 한 투구씩 상황을 진행할 수 있는 함수를 만든 다음, 이를 특정 이닝까지 반복문을 계속해서 돌려주는 방식으로 구현했다.
 
 ### 이미지 예시
-![image](https://user-images.githubusercontent.com/47213425/69952537-bd833300-153a-11ea-8023-7592494d17e3.png)
+![image](https://user-images.githubusercontent.com/47213425/69952710-1bb01600-153b-11ea-991b-40c98a2438e3.png)
 ![image](https://user-images.githubusercontent.com/47213425/69952608-e6a3c380-153a-11ea-8ea5-798243ceac28.png)
